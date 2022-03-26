@@ -1,0 +1,16 @@
+desc:MIDI Random Velocity
+desc:Ignores supplied velocity and replaces it with a random velocity.
+out_pin: none
+
+@block
+  while (midirecv(offset,msg1,msg23) ?
+  (
+    velocity = msg23 >> 8;
+    // ignore off notes
+    velocity > 0 ?
+    (
+        random_velocity = ceil(rand(127));
+        midisend(0, $x90, 69, random_velocity);
+    );
+  );
+);
